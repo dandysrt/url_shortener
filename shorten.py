@@ -17,7 +17,7 @@ class URLSHORTENER(object):
           size - size of URLTABLE object,
           delta - time in hours for URLOBJECT Time To Live(TTL)
         '''
-        self.host = host
+        self.host = str(host)  # explicitly ensure host is string value
         self.urltable = URLTABLE(size, delta)
 
 
@@ -55,8 +55,8 @@ class URLSHORTENER(object):
         header = 'https://{0}'.format(host)
         if http:
             header = 'http://{0}'.format(host)
-        if 'http' in host:
-            header = host
+        if 'http' in str(host): # ensure host value is string
+            header = str(host)
         return '/'.join([header, string_key])
 
 

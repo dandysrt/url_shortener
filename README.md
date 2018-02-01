@@ -1,5 +1,5 @@
 # url_shortener
-pythonic URL shortening service
+pythonic URL shortening service submission Dandy Martin
 
 ## Description
 URLSHORTENER is an importable library that generates shortened references to
