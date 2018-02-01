@@ -19,7 +19,7 @@ class URLLIST(URLTABSTRACT):
          @Params: size - maximum hash-list size, delta - number in hours
            for Time To Live (TTL) of URLOBJECTS
         '''
-        super(URLTABLE, self).__init__()
+        super(URLLIST, self).__init__()
         self.hashlist = [None] * size   # initialize hashlist to set size
         self.seed = size                # seed is the size of hashlist
         self.delta = timedelta(hours=delta) # TTL for URLOBJECTS
@@ -35,7 +35,7 @@ class URLLIST(URLTABSTRACT):
             or entire list has been iterated
         @AdditionalInfo: O(1) best case, O(N) worst case
         '''
-        key = self.seed % int_key
+        key = int_key % self.seed
         try:
             if not self.hashlist[key]:
                 self.hashlist[key] = URLOBJECT(key, string_key, long_url)
@@ -61,7 +61,7 @@ class URLLIST(URLTABSTRACT):
         '''
         t = struct.unpack('>5B', string_key)
         int_key = t[0] + t[1] + t[2] + t[3] + t[4]
-        key = self.seed % int_key
+        key = int_key % self.seed
         while key < self.seed:
             u_obj = self.hashlist[key]
             if (datetime.utcnow() - u_obj.time) < self.delta \

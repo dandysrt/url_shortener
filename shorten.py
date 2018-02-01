@@ -7,9 +7,13 @@ from urltable import URLTABLE
 
 
 class URLSHORTENER(object):
+    '''
+     @Desc:
+    '''
 
-    def __init__(self):
-        self.urltable = URLTABLE()
+    def __init__(self, host, size, delta=1):
+        self.host = host
+        self.urltable = URLTABLE(size, delta)
 
 
     def build_key(self, seed=None):
@@ -36,7 +40,7 @@ class URLSHORTENER(object):
             header = 'http://{0}'.format(host)
         if 'http' in host:
             header = host
-        return '/'.join([header, key_string])
+        return '/'.join([header, string_key])
 
 
     def push_to_table(self, int_key, string_key, long_url):
@@ -45,7 +49,7 @@ class URLSHORTENER(object):
     def get_long_url(self, short_url):
         return self.urltable.retrieve(short_url.split('/')[-1]) # split and grab key from end of url
 
-    def get_short_url(self, host, long_url, http=False, integer_key=False):
+    def get_short_url(self, long_url, http=False):
         i_key, s_key = self.build_key(long_url)
         self.push_to_table(i_key, s_key, long_url)
-        return self.build_url(host, s_key, http)
+        return self.build_url(self.host, s_key, http)

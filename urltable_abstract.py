@@ -18,11 +18,11 @@ class URLOBJECT(object):
         self.url = url
         self.time = time
 
-class URLTABSTRACT:
+class URLTABSTRACT(object):
     '''
      @ClassDesc: Abstract class for inheritance
     '''
-    def __init__:
+    def __init__(self, *args):
         pass
 
     def push(self, int_key, string_key, long_url):

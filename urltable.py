@@ -1,3 +1,9 @@
+#!/usr/bin/python
+import os, sys
+from urltable_abstract import URLTABSTRACT, URLOBJECT
+from datetime import datetime, timedelta
+import struct
+
 class URLTABLE(URLTABSTRACT):
     '''
      @ClassDesc: dynamic hash-table class inherits URLTABSTRACT to adhere to API
@@ -10,7 +16,7 @@ class URLTABLE(URLTABSTRACT):
            for Time To Live (TTL) of URLOBJECTS
         '''
         super(URLTABLE, self).__init__()
-        self.hashlist = [list()] * size   # initialize hashtable to set size
+        self.hashlist = [list() for _ in range(size)] # initialize hashtable to set size
         self.seed = size                # seed is the size of hashlist "Y" dimension
         self.delta = timedelta(hours=delta) # TTL for URLOBJECTS
 
@@ -24,7 +30,7 @@ class URLTABLE(URLTABSTRACT):
             False - if item not successfully placed
          @AdditionalInfo: O(1)
         '''
-        key = self.seed % int_key
+        key = int_key % self.seed
         try:
             self.hashlist[key].append(URLOBJECT(key, string_key, long_url, datetime.utcnow()))
             return True
@@ -43,7 +49,7 @@ class URLTABLE(URLTABSTRACT):
         '''
         t = struct.unpack('>5B', string_key)
         int_key = t[0] + t[1] + t[2] + t[3] + t[4]
-        key = self.seed % int_key
+        key = int_key % self.seed
         try:
             for i in range(len(self.hashlist[key])):
                 try:
