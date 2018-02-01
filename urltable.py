@@ -56,11 +56,11 @@ class URLTABLE(URLTABSTRACT):
                     u_obj = self.hashlist[key][i]
                 except IndexError:
                     return None
-                    if not datetime.utcnow() - u_obj.time > self.delta:
-                        if u_obj.str_key in string_key: # if our time and key is valid, return the url
-                            return u_obj.url
-                    else:
-                        self.hashlist[key].pop(i) # rid ourselves of objects that are expired
+                if not datetime.utcnow() - u_obj.time > self.delta:
+                    if u_obj.str_key in string_key: # if our time and key is valid, return the url
+                        return u_obj.url
+                else:
+                    self.hashlist[key].pop(i) # rid ourselves of objects that are expired
             return None # if we did not encounter our key, return nothing
         except Exception as e:
             raise e
