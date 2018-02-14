@@ -1,5 +1,5 @@
 # url_shortener
-pythonic URL shortening service submission Dandy Martin
+pythonic URL shortening service  Dandy Martin
 
 ## Description
 URLSHORTENER is an importable library that generates shortened references to
@@ -7,10 +7,15 @@ longer URLS.
 URL storage service is customizable depending on preference with adherence
 to the URLTABSTRACT abstract class' function calls.
 In order to use a custom storage service, build your own urltable.py with URLTABLE
-class object, and wrap your storage and retrieval calls according to the URLABSTRACT
+class object, and wrap your storage and retrieval calls according to the URLTABSTRACT
 function calls.
-By default, a dynamic hash-table implementation is already provided, simply follow
-the Quick Start Guide to get started.
+Because I decided to have a bit of fun, this url shortener is unique in that it
+does not utilize a base62/72 bijective function in order to build its keys,
+but instead uses the sum of the ascii values for the generated integer - lowercase
+English characters for key creation.
+By default, an explicit, dynamic hash-table implementation is already provided...
+(I realize Python already has a dictionary that can be used instead, this was more fun).
+Simply follow the Quick Start Guide to get started.
 
 ## Features
 * Importable Class-based structure

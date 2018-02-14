@@ -20,7 +20,6 @@ class URLSHORTENER(object):
         self.host = str(host)  # explicitly ensure host is string value
         self.urltable = URLTABLE(size, delta)
 
-
     def build_key(self, seed=None):
         '''
          @Desc: function to build URLTABLE key
@@ -28,10 +27,11 @@ class URLSHORTENER(object):
          @Return: i_key - integer representation of key,
            s_key - string representation of key
         '''
-        klist = ['>5B']
         i_key = 0
         random.seed(seed)
-        for _ in range(5):
+        size = random.randint(1, 7)  # magic number, but we've got to limit it somewhere
+        klist = ['>{0}B'.format(size)]
+        for _ in range(size):
             asc = 0
             base = random.randint(48, 57)   # ascii values for 0-9
             mult = random.randint(1, 2)     # ascii a-z is nearly double 0-9 values
@@ -55,10 +55,9 @@ class URLSHORTENER(object):
         header = 'https://{0}'.format(host)
         if http:
             header = 'http://{0}'.format(host)
-        if 'http' in str(host): # ensure host value is string
+        if 'http' in str(host):  # ensure host value is string
             header = str(host)
         return '/'.join([header, string_key])
-
 
     def push_to_table(self, int_key, string_key, long_url):
         '''
@@ -76,7 +75,7 @@ class URLSHORTENER(object):
          @Params: short_url - shortened url
          @Return: long url
         '''
-        return self.urltable.retrieve(short_url.split('/')[-1]) # split and grab key from end of url
+        return self.urltable.retrieve(short_url.split('/')[-1])  # split and grab key from end of url
 
     def get_short_url(self, long_url, http=False):
         '''
