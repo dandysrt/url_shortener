@@ -10,15 +10,17 @@ class URLSHORTENER(object):
      @ClassDesc: Class for shortening long URLs
     '''
 
-    def __init__(self, host, size, delta=1):
+    def __init__(self, host, size, max_keysize=7, delta=1):
         '''
          @Desc: class constructor
          @Params: host - hostname for shortened URL,
           size - size of URLTABLE object,
+          max_keysize - maximum number of characters to append to shortened url,
           delta - time in hours for URLOBJECT Time To Live(TTL)
         '''
         self.host = str(host)  # explicitly ensure host is string value
         self.urltable = URLTABLE(size, delta)
+        self.max = max_keysize
 
     def build_key(self, seed=None):
         '''
@@ -27,9 +29,9 @@ class URLSHORTENER(object):
          @Return: i_key - integer representation of key,
            s_key - string representation of key
         '''
-        i_key = 0
+        i_key = ''
         random.seed(seed)
-        size = random.randint(1, 7)  # magic number, but we've got to limit it somewhere
+        size = random.randint(1, self.max)  # magic number, but we've got to limit it somewhere
         klist = ['>{0}B'.format(size)]
         for _ in range(size):
             asc = 0
@@ -38,11 +40,13 @@ class URLSHORTENER(object):
             add = 0
             if mult > 1:
                 add = random.randint(1, 8)  # lower to upper range of values for a-z
+                if random.randint(0, 1):
+                    add-= 32                # randomly decide to uppercase
             asc = (base * mult) + add
             klist.append(asc)
-            i_key+= asc
+            i_key+= str(asc)
         s_key = struct.pack(*klist)
-        return i_key, s_key
+        return int(i_key), s_key
 
     def build_url(self, host, string_key, http=False):
         '''

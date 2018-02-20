@@ -4,16 +4,17 @@ pythonic URL shortening service  Dandy Martin
 ## Description
 URLSHORTENER is an importable library that generates shortened references to
 longer URLS.
-URL storage service is customizable depending on preference with adherence
+* URL storage service is customizable depending on preference with adherence
 to the URLTABSTRACT abstract class' function calls.
-In order to use a custom storage service, build your own urltable.py with URLTABLE
+* In order to use a custom storage service, build your own urltable.py with URLTABLE
 class object, and wrap your storage and retrieval calls according to the URLTABSTRACT
 function calls.
-Because I decided to have a bit of fun, this url shortener is unique in that it
-does not utilize a base62/72 bijective function in order to build its keys,
-but instead uses the sum of the ascii values for the generated integer - lowercase
-English characters for key creation.
-By default, an explicit, dynamic hash-table implementation is already provided...
+* Updated to utilize an ascii-based bijective function to randomly generate hash keys
+whose characters fall in the range a-zA-Z0-9, and appending their integer values together
+instead of simply summing them - Vastly increasing the range of keys available, and minimizing
+risk of collision.
+* Additionally allows custom hash key range (variable from 1-N)
+* By default, an explicit, dynamic hash-table implementation is already provided...
 (I realize Python already has a dictionary that can be used instead, this was more fun).
 Simply follow the Quick Start Guide to get started.
 

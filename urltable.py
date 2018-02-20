@@ -46,10 +46,10 @@ class URLTABLE(URLTABSTRACT):
          @Return: long url if successful, None if unsuccessful
          @AdditionalInfo: Best case O(1), worst case O(N)
         '''
-        int_key = 0
+        int_key = ''
         for c in string_key:
-            int_key+= struct.unpack('>B', c)[0]
-        key = int_key % self.seed
+            int_key+= str(struct.unpack('>B', c)[0])
+        key = int(int_key) % self.seed
         try:
             for i in range(len(self.hashlist[key])):
                 try:
